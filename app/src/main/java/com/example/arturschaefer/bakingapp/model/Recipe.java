@@ -1,25 +1,44 @@
 package com.example.arturschaefer.bakingapp.model;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.arturschaefer.bakingapp.R;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.mikepenz.fastadapter.items.AbstractItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class Recipe implements Parcelable{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class Recipe extends AbstractItem<Recipe, Recipe.ViewHolder> implements Parcelable {
 
     @SerializedName("id")
+    @Expose
     private int mId;
     @SerializedName("name")
+    @Expose
     private String mName;
     @SerializedName("ingredients")
+    @Expose
     private ArrayList<Ingredient> mIngredientList;
     @SerializedName("steps")
+    @Expose
     private ArrayList<Step> mStepList;
     @SerializedName("servings")
+    @Expose
     private int mServings;
     @SerializedName("image")
+    @Expose
     private String mImage;
 
     protected Recipe(Parcel in) {
@@ -83,47 +102,57 @@ public class Recipe implements Parcelable{
         return mId;
     }
 
-    public void setmId(int mId) {
-        this.mId = mId;
-    }
-
     public String getmName() {
         return mName;
-    }
-
-    public void setmName(String mName) {
-        this.mName = mName;
     }
 
     public ArrayList<Ingredient> getmIngredientList() {
         return mIngredientList;
     }
 
-    public void setmIngredientList(ArrayList<Ingredient> mIngredientList) {
-        this.mIngredientList = mIngredientList;
-    }
-
     public ArrayList<Step> getmStepList() {
         return mStepList;
     }
 
-    public void setmStepList(ArrayList<Step> mStepList) {
-        this.mStepList = mStepList;
-    }
 
     public int getmServings() {
         return mServings;
-    }
-
-    public void setmServings(int mServings) {
-        this.mServings = mServings;
     }
 
     public String getmImage() {
         return mImage;
     }
 
-    public void setmImage(String mImage) {
-        this.mImage = mImage;
+    @Override
+    public int getType() {
+        return R.id.recipe_detail_container;
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public int getLayoutRes() {
+        return R.id.recipe_list;
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.imageview_receipt)
+        ImageView imageView;
+        @BindView(R.id.textview_recipe_name)
+        TextView recipeName;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(Recipe recipe){
+            recipeName.setText(recipe.getmName());
+            if(recipe.getmImage().isEmpty()){
+                Picasso.get().load(R.drawable.luck_biscuit).into(imageView);
+            } else {
+                Picasso.get().load(recipe.getmImage()).into(imageView);
+            }
+        }
     }
 }

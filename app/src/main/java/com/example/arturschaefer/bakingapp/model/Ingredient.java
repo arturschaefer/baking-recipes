@@ -3,15 +3,19 @@ package com.example.arturschaefer.bakingapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Ingredient implements Parcelable{
 
     @SerializedName("id")
+    @Expose
     private Double mQuantity;
     @SerializedName("measure")
+    @Expose
     private String mMeasure;
     @SerializedName("ingredient")
+    @Expose
     private String mIngredient;
 
     protected Ingredient(Parcel in) {
