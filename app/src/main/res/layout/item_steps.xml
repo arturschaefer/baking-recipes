@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_step"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="0dp"
+    android:paddingLeft="@dimen/half_default_padding"
+    android:paddingRight="@dimen/half_default_padding"
+    android:paddingTop="0dp">
+
+    <TextView
+        android:id="@+id/tv_step_short_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/half_default_margin"
+        android:layout_marginRight="@dimen/half_default_margin"
+        android:layout_marginTop="@dimen/half_default_margin"
+        android:clickable="true"
+        android:foreground="?android:selectableItemBackground"
+        android:padding="@dimen/half_default_padding"
+        android:textSize="@dimen/default_text_size"
+        tools:text="Place the butter on the knife" />
+
+</LinearLayout>

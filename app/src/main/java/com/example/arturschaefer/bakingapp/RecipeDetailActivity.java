@@ -2,47 +2,67 @@ package com.example.arturschaefer.bakingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
-/**
- * An activity representing a single Recipe detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link RecipeListActivity}.
- */
+import com.example.arturschaefer.bakingapp.adapter.DetailPagerAdapter;
+import com.example.arturschaefer.bakingapp.model.Recipe;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeDetailActivity extends AppCompatActivity {
+
+    private static final String FRAGMENT_INGREDIENTS = "fragment_ingredients";
+    private static final String FRAGMENT_STEPS = "fragment_steps";
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.tabs)
+    TabLayout mTabLayout;
+    @BindView(R.id.vp_container)
+    ViewPager mViewPager;
+
+    private Recipe mRecipe;
+    private IngredientFragment mIngredientFragment;
+    private StepFragment mStepFragment;
+    private DetailPagerAdapter mSectionsPagerAdapter;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
 
-        // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (getIntent() != null && getIntent().hasExtra(RecipeListActivity.RECIPES_DETAILS)) {
+            mRecipe = getIntent().getParcelableExtra(RecipeListActivity.RECIPES_DETAILS);
         }
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
+        if(findViewById(R.id.fl_detail_step_container) != null)
+            mTwoPane = true;
+
+        setupFragment(savedInstanceState);
+        setupToolbar();
+    }
+
+    public void setupToolbar(){
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(mRecipe.getmName());
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    public void setupFragment(Bundle savedInstanceState){
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(RecipeDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(RecipeDetailFragment.ARG_ITEM_ID));
@@ -52,21 +72,41 @@ public class RecipeDetailActivity extends AppCompatActivity {
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState == null) {
+            mIngredientFragment = new IngredientFragment();
+            mStepFragment = new StepFragment();
+            savedInstanceState.putParcelableArrayList(FRAGMENT_INGREDIENTS, mRecipe.getmIngredientList());
+            mIngredientFragment.setArguments(savedInstanceState);
+
+            savedInstanceState.putParcelableArrayList(FRAGMENT_STEPS, mRecipe.getmStepList());
+            mStepFragment.setArguments(savedInstanceState);
+
+        } else {
+            mIngredientFragment = (IngredientFragment) fragmentManager
+                    .getFragment(savedInstanceState, FRAGMENT_INGREDIENTS);
+            mStepFragment = (StepFragment) fragmentManager
+                    .getFragment(savedInstanceState, FRAGMENT_STEPS);
+        }
+
+        mSectionsPagerAdapter = new DetailPagerAdapter(
+                fragmentManager,
+                mIngredientFragment,
+                mStepFragment);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
             navigateUpTo(new Intent(this, RecipeListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -2,7 +2,6 @@ package com.example.arturschaefer.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,10 +19,8 @@ import com.example.arturschaefer.bakingapp.dummy.DummyContent;
 import com.example.arturschaefer.bakingapp.model.Recipe;
 import com.example.arturschaefer.bakingapp.utils.RetrofitBuilder;
 import com.example.arturschaefer.bakingapp.utils.RetrofitService;
-import com.google.gson.annotations.Expose;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,9 +123,13 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
 
     @Override
     public void onRecipeItemClick(Recipe recipe) {
-        Intent intent = new Intent(this, RecipeDetailActivity.class);
-        intent.putExtra(RECIPES_DETAILS, recipe);
-        startActivity(intent);
+        if(!mTwoPane){
+            Intent intent = new Intent(this, RecipeDetailActivity.class);
+            intent.putExtra(RECIPES_DETAILS, recipe);
+            startActivity(intent);
+        } else{
+            //TODO configurar para tela de tablet
+        }
     }
 
     @Override
@@ -178,7 +179,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recipe_list_content, parent, false);
+                    .inflate(R.layout.item_recipes, parent, false);
             return new ViewHolder(view);
         }
 

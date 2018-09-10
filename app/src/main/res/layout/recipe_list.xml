@@ -8,5 +8,5 @@
     android:layout_height="match_parent"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
     tools:context=".RecipeListActivity"
-    tools:listitem="@layout/recipe_list_content"
+    tools:listitem="@layout/item_recipes"
     android:fitsSystemWindows="true"/>
