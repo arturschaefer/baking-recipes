@@ -81,10 +81,10 @@ public class StepDetailActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(mStepArrayList.get(mCurrentStep).getmShortDescription());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            if (getApplicationContext().getResources().getConfiguration().orientation
-                    == Configuration.ORIENTATION_LANDSCAPE) {
-                getSupportActionBar().hide();
-            }
+//            if (getApplicationContext().getResources().getConfiguration().orientation
+//                    == Configuration.ORIENTATION_LANDSCAPE) {
+//                getSupportActionBar().hide();
+//            }
         }
     }
 
@@ -119,6 +119,8 @@ public class StepDetailActivity extends AppCompatActivity {
             getSupportFragmentManager().putFragment(outState, STEPS_FRAGMENT, mStepDetailFragment);
         }
         outState.putInt(CURRENT_STEP, mCurrentStep);
+        outState.putParcelable(CURRENT_STEP, mStep);
+        mBundle = outState;
         super.onSaveInstanceState(outState);
     }
 
@@ -134,5 +136,14 @@ public class StepDetailActivity extends AppCompatActivity {
         mCurrentStep -= 1;
         setupFragment(mBundle);
         setupButtons(mCurrentStep);
+    }
+
+    //TODO Fix the Instacesave
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mStep = savedInstanceState.getParcelable(CURRENT_STEP);
+        mBundle = savedInstanceState;
+        mCurrentStep = savedInstanceState.getInt(CURRENT_INDEX);
     }
 }

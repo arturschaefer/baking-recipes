@@ -39,6 +39,7 @@ public class IngredientFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL));
 
         mIngredientArrayList = getArguments().getParcelableArrayList(RecipeDetailActivity.FRAGMENT_INGREDIENTS);
         mIngredientAdapter = new IngredientAdapter(mIngredientArrayList);

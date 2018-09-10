@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,14 +14,14 @@
             android:id="@+id/video_player_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/exo_player_height"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_horizontal"/>
 
-        <ProgressBar
-            android:id="@+id/pb_buffering"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/exo_player_height"
+            android:id="@+id/iv_no_video"
+            android:visibility="gone"
+            android:src="@drawable/no_video"/>
 
     </FrameLayout>
 
