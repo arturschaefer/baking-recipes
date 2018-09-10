@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.arturschaefer.bakingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,9 +26,10 @@
             android:label="@string/title_recipe_detail"
             android:parentActivityName=".RecipeListActivity"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.arturschaefer.bakingapp.RecipeListActivity" />
+        </activity>
+        <activity
+            android:name=".StepDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

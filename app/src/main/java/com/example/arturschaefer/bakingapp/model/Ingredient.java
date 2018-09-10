@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Ingredient implements Parcelable{
 
-    @SerializedName("id")
+    @SerializedName("quantity")
     @Expose
     private Double mQuantity;
     @SerializedName("measure")
@@ -41,7 +41,6 @@ public class Ingredient implements Parcelable{
         dest.writeString(mIngredient);
     }
 
-    @SuppressWarnings("unused")
     public static final Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
         @Override
         public Ingredient createFromParcel(Parcel in) {
@@ -53,4 +52,16 @@ public class Ingredient implements Parcelable{
             return new Ingredient[size];
         }
     };
+
+    public Double getmQuantity() {
+        return mQuantity;
+    }
+
+    public String getmMeasure() {
+        return mMeasure;
+    }
+
+    public String getmIngredient() {
+        return mIngredient;
+    }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center" />
+
+    <View
+        android:id="@+id/v_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/min_dp"
+        android:background="@color/colorAccent" />
+
+    <LinearLayout
+        android:id="@+id/ll_step_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/detail_step_bottom_bt"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_prev"
+            android:layout_width="@dimen/detail_step_bottom_bt"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/prev_step"
+            android:textSize="@dimen/default_text_size"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <Button
+            android:id="@+id/bt_next"
+            android:layout_width="@dimen/detail_step_bottom_bt"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/next_step"
+            android:textSize="@dimen/default_text_size"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </LinearLayout>
+</LinearLayout>

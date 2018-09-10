@@ -27,7 +27,7 @@
             android:layout_gravity="bottom"
             android:padding="@dimen/default_padding"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/primary_text_size"
+            android:textSize="@dimen/title_text_size"
             tools:text="@string/app_name" />
     </LinearLayout>
 

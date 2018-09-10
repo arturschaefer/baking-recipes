@@ -5,9 +5,38 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="com.example.arturschaefer.bakingapp.IngredientFragment">
 
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginStart="@dimen/half_default_margin"-->
+        <!--android:layout_marginBottom="@dimen/default_margin">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/title_ingredient"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="@dimen/half_default_margin"-->
+            <!--android:layout_weight="5"-->
+            <!--android:textSize="@dimen/default_text_size"-->
+            <!--android:text="@string/title_ingredient"-->
+            <!--android:textStyle="bold"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/title_quantity"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="@dimen/half_default_margin"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:textSize="@dimen/default_text_size"-->
+            <!--android:text="@string/title_quantity"-->
+            <!--android:textStyle="bold"/>-->
+    <!--</LinearLayout>-->
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_ingredients"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
 </FrameLayout>

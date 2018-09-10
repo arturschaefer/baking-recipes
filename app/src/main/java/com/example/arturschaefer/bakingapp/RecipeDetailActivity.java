@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import com.example.arturschaefer.bakingapp.adapter.DetailPagerAdapter;
 import com.example.arturschaefer.bakingapp.model.Recipe;
@@ -19,12 +18,13 @@ import butterknife.ButterKnife;
 
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    private static final String FRAGMENT_INGREDIENTS = "fragment_ingredients";
-    private static final String FRAGMENT_STEPS = "fragment_steps";
+    private final String LOG_TAG = RecipeDetailActivity.class.getSimpleName();
+    public static final String FRAGMENT_INGREDIENTS = "fragment_ingredients";
+    public static final String FRAGMENT_STEPS = "fragment_steps";
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.toolbar_details)
     Toolbar mToolbar;
-    @BindView(R.id.tabs)
+    @BindView(R.id.tl_details)
     TabLayout mTabLayout;
     @BindView(R.id.vp_container)
     ViewPager mViewPager;
@@ -34,12 +34,14 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private StepFragment mStepFragment;
     private DetailPagerAdapter mSectionsPagerAdapter;
     private boolean mTwoPane;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
         ButterKnife.bind(this);
+        this.mBundle = savedInstanceState;
 
         if (getIntent() != null && getIntent().hasExtra(RecipeListActivity.RECIPES_DETAILS)) {
             mRecipe = getIntent().getParcelableExtra(RecipeListActivity.RECIPES_DETAILS);
@@ -48,7 +50,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         if(findViewById(R.id.fl_detail_step_container) != null)
             mTwoPane = true;
 
-        setupFragment(savedInstanceState);
+        setupFragment(mBundle);
         setupToolbar();
     }
 
@@ -62,19 +64,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
     }
 
     public void setupFragment(Bundle savedInstanceState){
+         FragmentManager fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            Bundle arguments = new Bundle();
-            arguments.putString(RecipeDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(RecipeDetailFragment.ARG_ITEM_ID));
-            RecipeDetailFragment fragment = new RecipeDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.recipe_detail_container, fragment)
-                    .commit();
-        }
+            savedInstanceState = new Bundle();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (savedInstanceState == null) {
             mIngredientFragment = new IngredientFragment();
             mStepFragment = new StepFragment();
             savedInstanceState.putParcelableArrayList(FRAGMENT_INGREDIENTS, mRecipe.getmIngredientList());
@@ -82,7 +75,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
             savedInstanceState.putParcelableArrayList(FRAGMENT_STEPS, mRecipe.getmStepList());
             mStepFragment.setArguments(savedInstanceState);
-
         } else {
             mIngredientFragment = (IngredientFragment) fragmentManager
                     .getFragment(savedInstanceState, FRAGMENT_INGREDIENTS);
@@ -100,13 +92,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        super.onBackPressed();
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            navigateUpTo(new Intent(this, RecipeListActivity.class));
+            NavUtils.navigateUpFromSameTask(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

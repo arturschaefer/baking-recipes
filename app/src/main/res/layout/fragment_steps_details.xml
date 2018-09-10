@@ -39,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:padding="@dimen/half_default_padding"
-                android:textSize="@dimen/default_text_size" />
+                android:textSize="@dimen/title_text_size"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_step_description"
