@@ -51,32 +51,32 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
         mToolbar.setTitle(getTitle());
         mProgressBar.setVisibility(View.VISIBLE);
 
-        if (savedInstanceState == null || !savedInstanceState.containsKey(RECIPES_LIST)) {
+        if (savedInstanceState == null || !savedInstanceState.containsKey(RECIPES_LIST)){
             mRecipeList = new ArrayList<>();
-            mCallback = new CallbackInterface() {
-                @Override
-                public void onSuccess(boolean value) {
-                    mProgressBar.setVisibility(View.GONE);
-                    RecyclerView recyclerView = (RecyclerView) mRecyclerView;
-                    recyclerView.setAdapter(mRecipeAdapter);
-                    mRecipeAdapter.swapData(mRecipeList);
-                }
-
-                @Override
-                public void onError() {
-                    Log.e(LOG_TAG, "Error with recipelist");
-                }
-            };
-            setupRecyclerView((RecyclerView) mRecyclerView, mCallback);
         } else {
             mRecipeList = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
         }
+        mRecipeAdapter = new RecipeAdapter(mRecipeList,this);
+
+        mCallback = new CallbackInterface() {
+            @Override
+            public void onSuccess(boolean value) {
+                mProgressBar.setVisibility(View.GONE);
+                RecyclerView recyclerView = (RecyclerView) mRecyclerView;
+                recyclerView.setAdapter(mRecipeAdapter);
+                mRecipeAdapter.swapData(mRecipeList);
+            }
+
+            @Override
+            public void onError() {
+                Log.e(LOG_TAG, "Error with recipelist");
+            }
+        };
+        setupRecyclerView((RecyclerView) mRecyclerView, mCallback);
 
         if (findViewById(R.id.recipe_detail_container) != null) {
             mTwoPane = true;
         }
-
-        mRecipeAdapter = new RecipeAdapter(mRecipeList,this);
 
         assert  mRecyclerView != null;
     }
@@ -115,7 +115,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
             Intent intent = new Intent(this, RecipeDetailActivity.class);
             intent.putExtra(RECIPES_DETAILS, recipe);
             startActivity(intent);
-        } else{
+        } else {
             //TODO configurar para tela de tablet
         }
     }

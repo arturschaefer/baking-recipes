@@ -61,6 +61,7 @@ public class StepDetailActivity extends AppCompatActivity {
         }
         setupActionBar();
         setupFragment(savedInstanceState);
+        setupButtons(mCurrentIndexStep);
     }
 
 
