@@ -105,6 +105,7 @@ public class StepDetailFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+
     }
 
     @Override

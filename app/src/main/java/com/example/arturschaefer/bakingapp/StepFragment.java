@@ -22,8 +22,8 @@ import butterknife.ButterKnife;
 
 public class StepFragment extends Fragment implements StepAdapter.StepListener{
     private static final String LOG_TAG = StepFragment.class.getSimpleName();
-    private static final String STEPS = "STEPS_DETAILS";
-    private static final String CURRENT_INDEX = "CURRENT_STEP";
+    private static final String STEP_LIST = "step_list";
+    private static final String CURRENT_INDEX = "current_index";
 
 
     @BindView(R.id.rv_step)
@@ -59,7 +59,7 @@ public class StepFragment extends Fragment implements StepAdapter.StepListener{
         mCurrentStep = mStepArrayList.indexOf(step);
         //TODO implement tablet check
         Intent intent = new Intent(getActivity(), StepDetailActivity.class);
-        intent.putParcelableArrayListExtra(STEPS, mStepArrayList);
+        intent.putParcelableArrayListExtra(STEP_LIST, mStepArrayList);
         intent.putExtra(CURRENT_INDEX, mCurrentStep);
         startActivity(intent);
     }

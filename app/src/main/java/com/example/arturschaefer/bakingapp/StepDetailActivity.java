@@ -21,8 +21,9 @@ public class StepDetailActivity extends AppCompatActivity {
     public static final String LOG_TAG = StepDetailActivity.class.getSimpleName();
     private static final String STEPS_FRAGMENT = "step_fragment";
     private static final String CURRENT_STEP = "current_step";
-    private static final String STEPS = "STEPS_DETAILS";
-    private static final String CURRENT_INDEX = "CURRENT_STEP";
+
+    private static final String STEP_LIST = "step_list";
+    private static final String CURRENT_INDEX = "current_index";
 
     @BindView(R.id.v_horizontal)
     View mView;
@@ -34,7 +35,7 @@ public class StepDetailActivity extends AppCompatActivity {
     LinearLayout mLinearLayout;
 
     private ArrayList<Step> mStepArrayList;
-    private int mCurrentStep;
+    private int mCurrentIndexStep;
     private StepDetailFragment mStepDetailFragment;
     private Step mStep;
     private Bundle mBundle;
@@ -47,12 +48,17 @@ public class StepDetailActivity extends AppCompatActivity {
         this.mBundle = savedInstanceState;
 
         if(getIntent().hasExtra(CURRENT_INDEX)
-                && getIntent().hasExtra(STEPS)){
-            mStepArrayList = getIntent().getParcelableArrayListExtra(STEPS);
-            mCurrentStep = getIntent().getIntExtra(CURRENT_INDEX, 0);
-            setupButtons(mCurrentStep);
+                && getIntent().hasExtra(STEP_LIST)){
+            mStepArrayList = getIntent().getParcelableArrayListExtra(STEP_LIST);
+            mCurrentIndexStep = getIntent().getIntExtra(CURRENT_INDEX, 0);
         }
 
+        if(savedInstanceState != null) {
+            mCurrentIndexStep = savedInstanceState.getInt(CURRENT_INDEX);
+            mStep = savedInstanceState.getParcelable(CURRENT_STEP);
+            mStepArrayList = savedInstanceState.getParcelableArrayList(STEP_LIST);
+            setupButtons(mCurrentIndexStep);
+        }
         setupActionBar();
         setupFragment(savedInstanceState);
     }
@@ -60,17 +66,21 @@ public class StepDetailActivity extends AppCompatActivity {
 
 
     public void setupFragment(Bundle bundle){
-        if (bundle != null && bundle.containsKey(STEPS_FRAGMENT)) {
-            mStepDetailFragment = (StepDetailFragment) getSupportFragmentManager().getFragment(bundle, STEPS_FRAGMENT);
-        } else {
+//        if (bundle != null && bundle.containsKey(STEPS_FRAGMENT)) {
+//            mStepDetailFragment = (StepDetailFragment) getSupportFragmentManager().getFragment(bundle, STEPS_FRAGMENT);
+//        } else {
+//            bundle = new Bundle();
+//            mBundle = bundle;
+//        }
+        if (bundle == null){
             bundle = new Bundle();
-            mStepDetailFragment = new StepDetailFragment();
-            mStep = mStepArrayList.get(mCurrentStep);
-            bundle.putParcelable(CURRENT_STEP, mStep);
-            mStepDetailFragment.setArguments(bundle);
             mBundle = bundle;
         }
+        mStepDetailFragment = new StepDetailFragment();
 
+        mStep = mStepArrayList.get(mCurrentIndexStep);
+        bundle.putParcelable(CURRENT_STEP, mStep);
+        mStepDetailFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rl_container, mStepDetailFragment)
                 .commit();
@@ -78,13 +88,9 @@ public class StepDetailActivity extends AppCompatActivity {
 
     public void setupActionBar(){
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(mStepArrayList.get(mCurrentStep).getmShortDescription());
+            getSupportActionBar().setTitle(mStepArrayList.get(mCurrentIndexStep).getmShortDescription());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-//            if (getApplicationContext().getResources().getConfiguration().orientation
-//                    == Configuration.ORIENTATION_LANDSCAPE) {
-//                getSupportActionBar().hide();
-//            }
         }
     }
 
@@ -115,35 +121,27 @@ public class StepDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (mStepDetailFragment.isAdded()) {
-            getSupportFragmentManager().putFragment(outState, STEPS_FRAGMENT, mStepDetailFragment);
-        }
-        outState.putInt(CURRENT_STEP, mCurrentStep);
+//        if (mStepDetailFragment.isAdded()) {
+//            getSupportFragmentManager().putFragment(outState, STEPS_FRAGMENT, mStepDetailFragment);
+//        }
+        outState.putInt(CURRENT_INDEX, mCurrentIndexStep);
         outState.putParcelable(CURRENT_STEP, mStep);
+        outState.putParcelableArrayList(STEP_LIST, mStepArrayList);
         mBundle = outState;
         super.onSaveInstanceState(outState);
     }
 
     @OnClick(R.id.bt_next)
     public void setmNextButton(){
-        mCurrentStep += 1;
+        mCurrentIndexStep += 1;
         setupFragment(mBundle);
-        setupButtons(mCurrentStep);
+        setupButtons(mCurrentIndexStep);
     }
 
     @OnClick(R.id.bt_prev)
     public void setmPrevButton(){
-        mCurrentStep -= 1;
+        mCurrentIndexStep -= 1;
         setupFragment(mBundle);
-        setupButtons(mCurrentStep);
-    }
-
-    //TODO Fix the Instacesave
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mStep = savedInstanceState.getParcelable(CURRENT_STEP);
-        mBundle = savedInstanceState;
-        mCurrentStep = savedInstanceState.getInt(CURRENT_INDEX);
+        setupButtons(mCurrentIndexStep);
     }
 }

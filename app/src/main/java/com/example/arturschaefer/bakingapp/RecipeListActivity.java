@@ -128,14 +128,8 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
         }
     }
 
-    public interface CallbackInterface{
+    public interface CallbackInterface {
         void onSuccess(boolean value);
         void onError();
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mRecipeList = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
     }
 }

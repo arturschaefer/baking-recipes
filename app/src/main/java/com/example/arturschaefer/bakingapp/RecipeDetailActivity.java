@@ -70,6 +70,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
             mIngredientFragment = new IngredientFragment();
             mStepFragment = new StepFragment();
+
             savedInstanceState.putParcelableArrayList(FRAGMENT_INGREDIENTS, mRecipe.getmIngredientList());
             mIngredientFragment.setArguments(savedInstanceState);
 
