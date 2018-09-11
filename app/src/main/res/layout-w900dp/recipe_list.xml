@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
@@ -15,11 +13,8 @@
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/recipe_list"
-        android:name="com.example.arturschaefer.bakingapp.RecipeListFragment"
         android:layout_width="@dimen/item_width"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:context="com.example.arturschaefer.bakingapp.RecipeListActivity"
         tools:listitem="@layout/item_recipes" />
@@ -29,5 +24,26 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3" />
+
+    <FrameLayout
+        android:id="@+id/recipe_step"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/recipe_step_container"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/exo_player"
+            android:orientation="vertical"
+            android:layout_marginTop="210dp"/>
+    </FrameLayout>
+
 
 </LinearLayout>

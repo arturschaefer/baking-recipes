@@ -3,6 +3,8 @@ package com.example.arturschaefer.bakingapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,11 +30,18 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
     private final String LOG_TAG = RecipeListActivity.class.getSimpleName();
     public static final String RECIPES_LIST = "recipes";
     public static final String RECIPES_DETAILS = "recipes_details";
+    public static final String FRAGMENT_INGREDIENTS = "fragment_ingredients";
+    public static final String FRAGMENT_STEPS = "fragment_steps";
+    public static final String TWO_PANE = "two_pane";
+
+
 
     private boolean mTwoPane;
     private ArrayList<Recipe> mRecipeList;
     private RecipeAdapter mRecipeAdapter;
     private CallbackInterface mCallback;
+    private boolean isFragmentDisplayed;
+    private Bundle mBundle;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -40,6 +49,9 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
     View mRecyclerView;
     @BindView(R.id.pb_recipe_list)
     ProgressBar mProgressBar;
+
+    StepFragment mStepFragment;
+    IngredientFragment mIngredientFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +84,13 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
                 Log.e(LOG_TAG, "Error with recipelist");
             }
         };
-        setupRecyclerView((RecyclerView) mRecyclerView, mCallback);
+        mBundle = savedInstanceState;
 
         if (findViewById(R.id.recipe_detail_container) != null) {
             mTwoPane = true;
         }
 
+        setupRecyclerView((RecyclerView) mRecyclerView, mCallback);
         assert  mRecyclerView != null;
     }
 
@@ -117,6 +130,9 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
             startActivity(intent);
         } else {
             //TODO configurar para tela de tablet
+            if(!mRecipeList.isEmpty()) {
+                displayFragments(recipe);
+            }
         }
     }
 
@@ -131,5 +147,30 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
     public interface CallbackInterface {
         void onSuccess(boolean value);
         void onError();
+    }
+
+    public void displayFragments(Recipe recipe){
+        mStepFragment = new StepFragment();
+        mIngredientFragment = new IngredientFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager
+                .beginTransaction();
+
+        if (mBundle == null)
+            mBundle = new Bundle();
+
+        mBundle.putParcelableArrayList(FRAGMENT_INGREDIENTS, recipe.getmIngredientList());
+        mBundle.putParcelableArrayList(FRAGMENT_STEPS, recipe.getmStepList());
+        mBundle.putBoolean(TWO_PANE, mTwoPane);
+
+        mIngredientFragment.setArguments(mBundle);
+        fragmentTransaction.replace(R.id.recipe_detail_container,
+                mIngredientFragment);
+
+        mStepFragment.setArguments(mBundle);
+        fragmentTransaction.replace(R.id.recipe_step_container,
+                mStepFragment).commit();
+
+        isFragmentDisplayed = true;
     }
 }

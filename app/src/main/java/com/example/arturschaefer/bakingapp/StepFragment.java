@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,8 @@ public class StepFragment extends Fragment implements StepAdapter.StepListener{
     private static final String LOG_TAG = StepFragment.class.getSimpleName();
     private static final String STEP_LIST = "step_list";
     private static final String CURRENT_INDEX = "current_index";
+    public static final String TWO_PANE = "two_pane";
+    private static final String CURRENT_STEP = "current_step";
 
 
     @BindView(R.id.rv_step)
@@ -32,6 +36,9 @@ public class StepFragment extends Fragment implements StepAdapter.StepListener{
     private StepAdapter mStepAdapter;
     private ArrayList<Step> mStepArrayList;
     private int mCurrentStep;
+    private boolean mTwoPane;
+    private Bundle mBundle;
+    private StepDetailFragment mStepFragment;
 
     @Nullable
     @Override
@@ -41,9 +48,11 @@ public class StepFragment extends Fragment implements StepAdapter.StepListener{
         View view = inflater.inflate(R.layout.fragment_steps_list, container, false);
         ButterKnife.bind(this, view);
 
+        mBundle = savedInstanceState;
+
         if(getArguments() != null){
             mStepArrayList = getArguments().getParcelableArrayList(RecipeDetailActivity.FRAGMENT_STEPS);
-            //TODO Tablet check
+            mTwoPane = getArguments().getBoolean(TWO_PANE);
         }
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -57,10 +66,26 @@ public class StepFragment extends Fragment implements StepAdapter.StepListener{
     @Override
     public void onStepClick(Step step) {
         mCurrentStep = mStepArrayList.indexOf(step);
-        //TODO implement tablet check
-        Intent intent = new Intent(getActivity(), StepDetailActivity.class);
-        intent.putParcelableArrayListExtra(STEP_LIST, mStepArrayList);
-        intent.putExtra(CURRENT_INDEX, mCurrentStep);
-        startActivity(intent);
+        if(!mTwoPane) {
+            Intent intent = new Intent(getActivity(), StepDetailActivity.class);
+            intent.putParcelableArrayListExtra(STEP_LIST, mStepArrayList);
+            intent.putExtra(CURRENT_INDEX, mCurrentStep);
+            startActivity(intent);
+        } else {
+            mStepFragment = new StepDetailFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager
+                    .beginTransaction();
+
+            if (mBundle == null)
+                mBundle = new Bundle();
+
+            mBundle.putParcelable(CURRENT_STEP, step);
+            mBundle.putBoolean(TWO_PANE, mTwoPane);
+
+            mStepFragment.setArguments(mBundle);
+            fragmentTransaction.replace(R.id.exo_player,
+                    mStepFragment).commit();
+        }
     }
 }
