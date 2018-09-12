@@ -34,10 +34,6 @@
 
         </activity>
 
-        <provider
-            android:name=".provider.RecipeProvider"
-            android:authorities="@string/authority_provider"/>
-
         <service android:name=".widget.WidgetService" />
 
         <receiver android:name=".widget.WidgetIngredients">
