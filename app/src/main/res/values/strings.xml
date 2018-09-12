@@ -9,4 +9,9 @@
     <string name="next_step">Next Step</string>
     <string name="ingredients">Ingredients List</string>
     <string name="steps">Instructions Steps</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_title">Title Widget</string>
+    <string name="widget_ingredient">Ingredient</string>
+    <string name="authority_provider">com.example.arturschaefer.bakingapp.database.provider</string>
 </resources>

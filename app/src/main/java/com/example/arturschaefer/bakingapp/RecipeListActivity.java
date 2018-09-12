@@ -34,8 +34,6 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
     public static final String FRAGMENT_STEPS = "fragment_steps";
     public static final String TWO_PANE = "two_pane";
 
-
-
     private boolean mTwoPane;
     private ArrayList<Recipe> mRecipeList;
     private RecipeAdapter mRecipeAdapter;
@@ -124,6 +122,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
 
     @Override
     public void onRecipeItemClick(Recipe recipe) {
+
         if(!mTwoPane){
             Intent intent = new Intent(this, RecipeDetailActivity.class);
             intent.putExtra(RECIPES_DETAILS, recipe);
