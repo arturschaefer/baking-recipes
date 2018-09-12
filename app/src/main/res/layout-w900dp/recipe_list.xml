@@ -19,11 +19,55 @@
         tools:context="com.example.arturschaefer.bakingapp.RecipeListActivity"
         tools:listitem="@layout/item_recipes" />
 
-    <FrameLayout
-        android:id="@+id/recipe_detail_container"
+    <RelativeLayout
+        android:id="@+id/recipe_detail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="3">
+
+        <TextView
+            android:id="@+id/ingredients_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/half_default_margin"
+            android:layout_alignStart="@id/recipe_detail"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/default_padding"
+            android:text="@string/ingredients"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold"
+            tools:ignore="NotSibling" />
+
+        <LinearLayout
+            android:id="@+id/recipe_detail_container"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ingredients_title"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/steps_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/default_padding"
+            android:text="@string/steps"
+            android:textSize="@dimen/default_text_size"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/recipe_step_container"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/recipe_step"
@@ -31,18 +75,12 @@
         android:layout_height="match_parent"
         android:layout_weight="3" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/recipe_step_container"
-            android:orientation="vertical"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/exo_player"
-            android:orientation="vertical"
-            android:layout_marginTop="210dp"/>
+            android:orientation="vertical"/>
     </FrameLayout>
 
 

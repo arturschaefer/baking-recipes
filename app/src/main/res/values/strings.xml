@@ -7,4 +7,6 @@
     <string name="sample_step">STEP</string>
     <string name="prev_step">Previous Step</string>
     <string name="next_step">Next Step</string>
+    <string name="ingredients">Ingredients List</string>
+    <string name="steps">Instructions Steps</string>
 </resources>
