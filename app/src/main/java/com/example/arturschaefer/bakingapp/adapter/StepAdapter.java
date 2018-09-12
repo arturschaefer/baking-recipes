@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.arturschaefer.bakingapp.R;
-import com.example.arturschaefer.bakingapp.StepDetailActivity;
 import com.example.arturschaefer.bakingapp.model.Step;
 
 import java.util.ArrayList;

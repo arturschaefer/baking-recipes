@@ -12,10 +12,8 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.example.arturschaefer.bakingapp.R;
 import com.example.arturschaefer.bakingapp.model.Ingredient;
 import com.example.arturschaefer.bakingapp.model.Recipe;
 import com.google.gson.Gson;
