@@ -31,6 +31,10 @@
             android:name=".StepDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-    </application>
 
+        <provider
+            android:name=".provider.RecipeProvider"
+            android:authorities="@string/authority_provider"
+            android:exported="true" />
+    </application>
 </manifest>
