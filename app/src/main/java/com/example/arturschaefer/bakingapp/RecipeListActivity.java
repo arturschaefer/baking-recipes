@@ -102,21 +102,6 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
 
         setupRecyclerView((RecyclerView) mRecyclerView, mCallback);
         assert  mRecyclerView != null;
-
-//        if(getIntent().hasExtra(WIDGET_EXTRA)){
-//            String recipeName = getIntent().getStringExtra(WIDGET_EXTRA);
-//            Recipe mRecipe = null;
-//
-//            if(mRecipeList != null){
-//                for (Recipe recipe : mRecipeList) {
-//                    if(recipe.getmName().equals(recipeName)){
-//                        mRecipe = recipe;
-//                    }
-//                }
-//            }
-//
-//            onRecipeItemClick(mRecipe);
-//        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, final CallbackInterface callbackInterface) {

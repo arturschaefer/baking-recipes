@@ -65,12 +65,6 @@ public class StepDetailActivity extends AppCompatActivity {
 
 
     public void setupFragment(Bundle bundle){
-//        if (bundle != null && bundle.containsKey(STEPS_FRAGMENT)) {
-//            mStepDetailFragment = (StepDetailFragment) getSupportFragmentManager().getFragment(bundle, STEPS_FRAGMENT);
-//        } else {
-//            bundle = new Bundle();
-//            mBundle = bundle;
-//        }
         if (bundle == null){
             bundle = new Bundle();
             mBundle = bundle;

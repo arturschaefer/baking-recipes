@@ -10,9 +10,6 @@ import android.widget.RemoteViews;
 import com.example.arturschaefer.bakingapp.R;
 import com.example.arturschaefer.bakingapp.RecipeListActivity;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class WidgetIngredients extends AppWidgetProvider {
     public static final String WIDGET_EXTRA = "widget_extra";
 
