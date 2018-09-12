@@ -26,15 +26,29 @@
             android:label="@string/title_recipe_detail"
             android:parentActivityName=".RecipeListActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".StepDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <provider
             android:name=".provider.RecipeProvider"
-            android:authorities="@string/authority_provider"
-            android:exported="true" />
+            android:authorities="@string/authority_provider"/>
+
+        <service android:name=".widget.WidgetService" />
+
+        <receiver android:name=".widget.WidgetIngredients">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_info" />
+        </receiver>
     </application>
+
 </manifest>

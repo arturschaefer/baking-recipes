@@ -1,6 +1,7 @@
 package com.example.arturschaefer.bakingapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,11 @@ import com.example.arturschaefer.bakingapp.adapter.RecipeAdapter;
 import com.example.arturschaefer.bakingapp.model.Recipe;
 import com.example.arturschaefer.bakingapp.utils.RetrofitBuilder;
 import com.example.arturschaefer.bakingapp.utils.RetrofitService;
+import com.example.arturschaefer.bakingapp.widget.WidgetService;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
@@ -34,12 +40,18 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
     public static final String FRAGMENT_STEPS = "fragment_steps";
     public static final String TWO_PANE = "two_pane";
 
+    public static final String SHARED_PREF = "shared_pref_baking";
+    public static final String WIDGET_EXTRA = "widget_extra";
+    public static final String JSON_RESULT = "json_result";
+
     private boolean mTwoPane;
     private ArrayList<Recipe> mRecipeList;
     private RecipeAdapter mRecipeAdapter;
     private CallbackInterface mCallback;
     private boolean isFragmentDisplayed;
     private Bundle mBundle;
+    private String mJsonRecipe;
+    private String mJsonResult;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -90,6 +102,21 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
 
         setupRecyclerView((RecyclerView) mRecyclerView, mCallback);
         assert  mRecyclerView != null;
+
+//        if(getIntent().hasExtra(WIDGET_EXTRA)){
+//            String recipeName = getIntent().getStringExtra(WIDGET_EXTRA);
+//            Recipe mRecipe = null;
+//
+//            if(mRecipeList != null){
+//                for (Recipe recipe : mRecipeList) {
+//                    if(recipe.getmName().equals(recipeName)){
+//                        mRecipe = recipe;
+//                    }
+//                }
+//            }
+//
+//            onRecipeItemClick(mRecipe);
+//        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView, final CallbackInterface callbackInterface) {
@@ -99,15 +126,16 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
 
             recipe.enqueue(new Callback<ArrayList<Recipe>>() {
                 @Override
-                public void onResponse(Call<ArrayList<Recipe>> call, Response<ArrayList<Recipe>> response) {
+                public void onResponse(@NonNull Call<ArrayList<Recipe>> call, @NonNull Response<ArrayList<Recipe>> response) {
                     Integer statusCode = response.code();
                     Log.i(LOG_TAG, statusCode.toString());
                     mRecipeList = response.body();
+                    mJsonResult = new Gson().toJson(response.body());
                     callbackInterface.onSuccess(true);
                 }
 
                 @Override
-                public void onFailure(Call<ArrayList<Recipe>> call, Throwable t) {
+                public void onFailure(@NonNull Call<ArrayList<Recipe>> call, @NonNull Throwable t) {
                     Log.i(LOG_TAG, "Error with Retrofit call");
                     callbackInterface.onError();
                 }
@@ -122,14 +150,25 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
 
     @Override
     public void onRecipeItemClick(Recipe recipe) {
-
         if(!mTwoPane){
+            SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREF, MODE_PRIVATE).edit();
             Intent intent = new Intent(this, RecipeDetailActivity.class);
             intent.putExtra(RECIPES_DETAILS, recipe);
+            intent.putExtra(JSON_RESULT, mJsonRecipe);
             startActivity(intent);
+
+            mJsonRecipe = jsonResultToOneRecipe(mJsonResult, recipe.getmId() - 1);
+            editor.putString(JSON_RESULT, mJsonRecipe);
+            editor.apply();
+            WidgetService.startActionOpenRecipe(getApplicationContext());
         } else {
             if(!mRecipeList.isEmpty()) {
                 displayFragments(recipe);
+                SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREF, MODE_PRIVATE).edit();
+                mJsonRecipe = jsonResultToOneRecipe(mJsonResult, recipe.getmId() - 1);
+                editor.putString(JSON_RESULT, mJsonRecipe);
+                editor.apply();
+                WidgetService.startActionOpenRecipe(getApplicationContext());
             }
         }
     }
@@ -170,5 +209,12 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
                 mStepFragment).commit();
 
         isFragmentDisplayed = true;
+    }
+
+    private String jsonResultToOneRecipe(String jsonResult, int position){
+        JsonElement jsonElement = new JsonParser().parse(jsonResult);
+        JsonArray jsonArray = jsonElement.getAsJsonArray();
+        JsonElement recipeElement = jsonArray.get(position);
+        return recipeElement.toString();
     }
 }
