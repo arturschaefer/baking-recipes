@@ -129,7 +129,6 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
             intent.putExtra(RECIPES_DETAILS, recipe);
             startActivity(intent);
         } else {
-            //TODO configurar para tela de tablet
             if(!mRecipeList.isEmpty()) {
                 displayFragments(recipe);
             }
