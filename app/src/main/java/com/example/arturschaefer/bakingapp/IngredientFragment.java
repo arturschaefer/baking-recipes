@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +42,14 @@ public class IngredientFragment extends Fragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL));
 
-        mIngredientArrayList = getArguments().getParcelableArrayList(RecipeDetailActivity.FRAGMENT_INGREDIENTS);
-        mIngredientAdapter = new IngredientAdapter(mIngredientArrayList);
-        mRecyclerView.setAdapter(mIngredientAdapter);
+        try{
+            mIngredientArrayList = getArguments().getParcelableArrayList(RecipeDetailActivity.FRAGMENT_INGREDIENTS);
+            mIngredientAdapter = new IngredientAdapter(mIngredientArrayList);
+            mRecyclerView.setAdapter(mIngredientAdapter);
+        } catch (Exception ex){
+            Log.e(LOG_TAG, ex.toString());
+        }
+
 
         return view;
     }

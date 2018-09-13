@@ -3,6 +3,7 @@ package com.example.arturschaefer.bakingapp.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,8 +35,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         this.mStepListener = mStepListener;
     }
 
+    @NonNull
     @Override
-    public StepAdapter.StepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public StepAdapter.StepViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_steps, parent, false);
         return new StepAdapter.StepViewHolder(view);
@@ -43,7 +45,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(StepAdapter.StepViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StepAdapter.StepViewHolder holder, int position) {
 
         Step itemStep = mStepArrayList.get(position);
         holder.shortTextView.setText(String.valueOf(position)

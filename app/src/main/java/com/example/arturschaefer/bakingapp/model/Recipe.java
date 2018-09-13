@@ -44,13 +44,13 @@ public class Recipe extends AbstractItem<Recipe, Recipe.ViewHolder> implements P
         mId = in.readInt();
         mName = in.readString();
         if (in.readByte() == 0x01) {
-            mIngredientList = new ArrayList<Ingredient>();
+            mIngredientList = new ArrayList<>();
             in.readList(mIngredientList, Ingredient.class.getClassLoader());
         } else {
             mIngredientList = null;
         }
         if (in.readByte() == 0x01) {
-            mStepList = new ArrayList<Step>();
+            mStepList = new ArrayList<>();
             in.readList(mStepList, Step.class.getClassLoader());
         } else {
             mStepList = null;

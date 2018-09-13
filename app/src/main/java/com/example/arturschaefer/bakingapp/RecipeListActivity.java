@@ -41,7 +41,6 @@ public class RecipeListActivity extends AppCompatActivity implements RecipeAdapt
     public static final String TWO_PANE = "two_pane";
 
     public static final String SHARED_PREF = "shared_pref_baking";
-    public static final String WIDGET_EXTRA = "widget_extra";
     public static final String JSON_RESULT = "json_result";
 
     private boolean mTwoPane;

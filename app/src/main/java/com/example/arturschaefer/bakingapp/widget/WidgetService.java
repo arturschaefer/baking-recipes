@@ -54,13 +54,15 @@ public class WidgetService extends IntentService {
 
                 startForeground(id, notification);
             }
+        } catch (NullPointerException ex){
+            Log.e(LOG_TAG, ex.toString());
         } catch (Exception e){
             Log.e(LOG_TAG, "Error in the create WidgetService");
         }
     }
 
     @Override
-    protected void onHandleIntent(@NonNull Intent intent) {
+    protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_OPEN_RECIPE.equals(action)) {

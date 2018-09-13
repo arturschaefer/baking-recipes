@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,27 +66,31 @@ public class StepFragment extends Fragment implements StepAdapter.StepListener{
 
     @Override
     public void onStepClick(Step step) {
-        mCurrentStep = mStepArrayList.indexOf(step);
-        if(!mTwoPane) {
-            Intent intent = new Intent(getActivity(), StepDetailActivity.class);
-            intent.putParcelableArrayListExtra(STEP_LIST, mStepArrayList);
-            intent.putExtra(CURRENT_INDEX, mCurrentStep);
-            startActivity(intent);
-        } else {
-            mStepFragment = new StepDetailFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager
-                    .beginTransaction();
+        try {
+            mCurrentStep = mStepArrayList.indexOf(step);
+            if (!mTwoPane) {
+                Intent intent = new Intent(getActivity(), StepDetailActivity.class);
+                intent.putParcelableArrayListExtra(STEP_LIST, mStepArrayList);
+                intent.putExtra(CURRENT_INDEX, mCurrentStep);
+                startActivity(intent);
+            } else {
+                mStepFragment = new StepDetailFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager
+                        .beginTransaction();
 
-            if (mBundle == null)
-                mBundle = new Bundle();
+                if (mBundle == null)
+                    mBundle = new Bundle();
 
-            mBundle.putParcelable(CURRENT_STEP, step);
-            mBundle.putBoolean(TWO_PANE, mTwoPane);
+                mBundle.putParcelable(CURRENT_STEP, step);
+                mBundle.putBoolean(TWO_PANE, mTwoPane);
 
-            mStepFragment.setArguments(mBundle);
-            fragmentTransaction.replace(R.id.exo_player,
-                    mStepFragment).commit();
+                mStepFragment.setArguments(mBundle);
+                fragmentTransaction.replace(R.id.exo_player,
+                        mStepFragment).commit();
+            }
+        } catch (Exception ex){
+            Log.e(LOG_TAG, ex.toString());
         }
     }
 }

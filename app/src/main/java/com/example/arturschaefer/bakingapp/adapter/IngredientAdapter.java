@@ -3,6 +3,7 @@ package com.example.arturschaefer.bakingapp.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,9 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         this.mIngredientArrayList = ingredientArrayList;
     }
 
+    @NonNull
     @Override
-    public IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mContext = parent.getContext();
 
         View itemView = LayoutInflater
@@ -40,7 +42,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(IngredientViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         Ingredient ingredient = mIngredientArrayList.get(position);
         holder.ingredientTextView.setText(ingredient.getmIngredient().toUpperCase());
         String colorString = (position % 2 == 1) ? "#82b1ff" : "#e3f2fd";
