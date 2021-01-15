@@ -38,7 +38,7 @@ With the app, I learned:
 
 testezinho
 
-[Link](picpay://picpay/invite)
+[Link](https://picpay://picpay/invite)
 
 ## License
 
